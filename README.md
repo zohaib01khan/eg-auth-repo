@@ -9,6 +9,7 @@ This repository contains a full-stack authentication system built with NestJS fo
 - [Installation](#installation)
 - [Usage](#usage)
 - [Environment Variables](#environment-variables)
+- [Testing](#testing)
 
 ## Features
 
@@ -62,4 +63,10 @@ The application requires specific environment variables for proper configuration
 
   Ensure these variables are set correctly before running the application.
 
+## Testing
+To run tests for the backend:
+   - Navigate to the server directory.
+   - Run tests:
+        ```bash
+        npm run test
 
