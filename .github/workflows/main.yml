@@ -1,0 +1,45 @@
+name: Deploy to Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy' # Description shown in the UI
+        required: true
+        default: 'main' # Default branch if not specified
+
+jobs:
+  deploy:
+    runs-on: self-hosted # Use your self-hosted runner
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }} # Use the branch specified at runtime
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.5.0' # Use your project's Node.js version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the React app
+      - name: Build React app
+        run: npm run build
+
+      # Step 5: Deploy the app
+      - name: Deploy React app
+        run: |
+          # Remove old files in the deployment directory
+          rm -rf /var/www/build/*
+          # Move built files to deployment directory
+          cp -r build/* /var/www/build/
+          sudo systemctl restart nginx
+          # # Restart the application using PM2
+          # pm2 restart react-app || pm2 start /var/www/react-app/server.js --name "react-app"
