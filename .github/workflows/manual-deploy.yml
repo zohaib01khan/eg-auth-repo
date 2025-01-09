@@ -25,20 +25,23 @@ jobs:
         with:
           node-version: '21.5.0' # Use your project's Node.js version
 
-      # Step 4: Goto client folder
+      # Step 3: Go to client folder
       - name: Go To FE Client Folder
         run: cd client
 
       # Step 4: Install dependencies
       - name: Install dependencies
+        working-directory: client
         run: npm install
 
       # Step 5: Build the React app
       - name: Build React app
+        working-directory: client
         run: npm run build
 
       # Step 6: Deploy the app
       - name: Deploy React app
+        working-directory: client
         run: |
           # Remove old files in the deployment directory
           rm -rf /var/www/build/*
